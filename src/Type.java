@@ -14,6 +14,6 @@ public enum Type {
 
     @Override
     public String toString() {
-        return "Type " + type;
+        return "Тип задачи: " + type;
     }
 }

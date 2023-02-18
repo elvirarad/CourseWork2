@@ -1,2 +1,2 @@
-public class DailyTask extends Task{
+public class DailyTask extends Task {
 }

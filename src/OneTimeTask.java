@@ -1,2 +1,2 @@
-public class OneTimeTask extends Task{
+public class OneTimeTask extends Task {
 }

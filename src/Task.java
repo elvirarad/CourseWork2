@@ -57,14 +57,11 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "idGenerator=" + idGenerator +
-                ", title='" + title + '\'' +
-                ", type=" + type +
-                ", id=" + id +
-                ", dataTime=" + dataTime +
-                ", description='" + description + '\'' +
-                '}';
+        return "Задача " + " № " + id + ": " +
+                title + ", " +
+                type  +
+                ", дата: " + dataTime +
+                ", описание: " + description ;
     }
 
     @Override

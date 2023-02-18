@@ -1,2 +1,2 @@
-public class MonthlyTask extends Task{
+public class MonthlyTask extends Task {
 }
