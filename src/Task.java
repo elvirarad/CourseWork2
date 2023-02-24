@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -9,20 +10,19 @@ public abstract class Task {
     private LocalDateTime dataTime;
     private String description;
 
-    public Task() {
-        idGenerator++;
-        id = idGenerator;
-    }
+//    public Task() {
+//        idGenerator++;
+//        id = idGenerator;
+//    }
 
-    public Task(int idGenerator,
-                String title,
+    public Task(String title,
                 Type type,
-                int id,
                 LocalDateTime dataTime,
                 String description) {
+        idGenerator++;
+        this.id = idGenerator;
         this.title = title;
         this.type = type;
-        this.id = id;
         this.dataTime = dataTime;
         this.description = description;
     }
@@ -55,9 +55,11 @@ public abstract class Task {
         this.description = description;
     }
 
+    public abstract boolean appearsIn (LocalDate localDate);
+
     @Override
     public String toString() {
-        return "Задача " + " № " + id + ": " +
+        return "Задача № " + id + " : " +
                 title + ", " +
                 type  +
                 ", дата: " + dataTime +
@@ -69,11 +71,11 @@ public abstract class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return idGenerator == task.idGenerator && id == task.id && title.equals(task.title) && type.equals(task.type) && dataTime.equals(task.dataTime) && description.equals(task.description);
+        return id == task.id && title.equals(task.title) && type.equals(task.type) && dataTime.equals(task.dataTime) && description.equals(task.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idGenerator, title, type, id, dataTime, description);
+        return Objects.hash(title, type, id, dataTime, description);
     }
 }
