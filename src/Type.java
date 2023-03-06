@@ -1,6 +1,6 @@
 public enum Type {
-    WORK ("Work"),
-    PERSONAL("Personal");
+    WORK ("Рабочая"),
+    PERSONAL("Личная");
 
     private final String type;
 
@@ -14,6 +14,6 @@ public enum Type {
 
     @Override
     public String toString() {
-        return "Тип задачи: " + type;
+        return "Тип задачи: " + getType();
     }
 }

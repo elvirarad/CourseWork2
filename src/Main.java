@@ -1,47 +1,51 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-//import CourseWork2.TaskNotFoundException;
+
 // import CourseWork2.TaskService.*;
 public class Main {
-    public static void main(String[] args) {
+    public static final String DATE_FORMAT = "dd.MM.yyyy";
+    public static final String DATE_TIME_FORMAT = "dd.MM.yyyy-HH:mm";
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
 
-            Task 1 = new OneTimeTask("Переговоры" );
-                    //"Task #1 oneTime", Type.WORK, null);
-//            OneTimeTask  2 = new OneTimeTask("Task #2 oneTime", Type.PERSONAL, "Barbershop");
-//            OneTimeTask  3 = new OneTimeTask("Task #3 oneTime", Type.WORK, " ");
-//            DailyTask  = new DailyTask("Task #4 daily", Type.WORK, "Проверить почту");
-//            DailyTask task5 = new DailyTask("Task #5 daily", Type.PERSONAL, "почистить зубы");
-//            WeeklyTask task6 = new WeeklyTask("Task #6 weekly", Type.PERSONAL, "cleaning");
-//            MonthlyTask task7 = new MonthlyTask("Task #7 monthly", Type.WORK, "monthly report");
-//            YearlyTask task8 = new YearlyTask("Task #8 yearly", Type.WORK, "чей-то день рождения");
-
-// вместо списка используем мапу
-//            tasks.put(task1.getId(), task1);
-//            tasks.put(task2.getId(), task2);
-//            tasks.put(task3.getId(), task3);
-//            tasks.put(task4.getId(), task4);
-//            tasks.put(task5.getId(), task5);
-//            tasks.put(task6.getId(), task6);
-//            tasks.put(task7.getId(), task7);
-//            tasks.put(task8.getId(), task8);
-
+    public static void main(String[] args) throws  IncorrectArgumentException{
+        TaskService service = new TaskService();
         try (Scanner scanner = new Scanner(System.in)) {
             label:
             while (true) {
                 System.out.println("---- Меню команд----");
                 printMenu();
-                System.out.println("Введите номер команды из меню: ");
-
+                System.out.print("Введите номер команды из меню: ");
                 if (scanner.hasNextInt()) {
                     int menu = scanner.nextInt();
                     switch (menu) {
                         case 1:
-                            TaskService.addTask();
+                            Task task;
+                            task = CreateTask.createTask (scanner);
+                            System.out.println(task);
+                            try {
+                                service.add(task);                                                                          // service.add(createTask)
+                            }
+                            catch (IncorrectArgumentException e)
+                            {
+                                e.printStackTrace();
+                                System.out.println(e);
+                            }
                             break;
                         case 2:
-                            TaskService.removeTask();
+                            System.out.println("Введите id задачи для удаления");
+                            try {
+                                service.removeTask(scanner.nextInt());
+                            }
+                            catch (TaskNotFoundException e){
+                                e.printStackTrace();   // указывает в какой строке исключение
+                                System.out.println(e);
+                            }
                             break;
                         case 3:
-                            TaskService.getAllByDate();
+                            System.out.println("Введите дату чтобы посмотреть список задач, вводите дату в формате гггг - мм - дд: ");
+                            System.out.println(service.getAllByDate(LocalDate.parse(scanner.next(), DateTimeFormatter.ISO_LOCAL_DATE)));
                             break;
                         case 4:
                             TaskService.updateTitle();
@@ -53,13 +57,10 @@ public class Main {
                     }
                 } else {
                     scanner.next();
+                    System.out.println ( "Выберите номер пункта из меню: " );
                 }
             }
             System.out.println("Чао!");
-//        } catch (TaskNotFoundException e) {
-//            System.out.println(e.getMessage());
-//        } catch (IncorrectArgumentException e) {
-//            System.out.println(e.getArgument());
             }
         }
 

@@ -1,31 +1,50 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
+
 
 public abstract class Task {
     private static int idGenerator = 0;
-    private String title;
-    private Type type;
+    private final String title;
+    private final Type type;
     private final int id;
     private LocalDateTime dataTime;
     private String description;
+    private final RepeatabilityTask repeatabilityTask;
+
+    public abstract boolean appearsIn(LocalDate date);
 
 //    public Task() {
 //        idGenerator++;
 //        id = idGenerator;
 //    }
-
     public Task(String title,
                 Type type,
+                String description,
                 LocalDateTime dataTime,
-                String description) {
+                RepeatabilityTask repeatabilityTask) {
+        this.dataTime = dataTime;
+        this.repeatabilityTask = repeatabilityTask;
         idGenerator++;
         this.id = idGenerator;
         this.title = title;
         this.type = type;
-        this.dataTime = dataTime;
         this.description = description;
     }
+
+//    public Task(String title,
+//                Type type,
+//                String description,
+//                LocalDateTime dataTime) {
+//        this.dataTime = dataTime;
+//        idGenerator++;
+//        this.id = idGenerator;
+//        this.title = title;
+//        this.type = type;
+//        this.description = description;
+//    }
 
     public String getTitle() {
         return title;
@@ -35,9 +54,7 @@ public abstract class Task {
         return type;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {   return id;  }
 
     public LocalDateTime getDataTime() {
         return dataTime;
@@ -47,21 +64,27 @@ public abstract class Task {
         return description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public abstract boolean appearsIn (LocalDate localDate);
+    public void setDateTime(String dateTime) throws IncorrectArgumentException{
+        boolean check = true;
+        try {
+            this.dataTime =  dataTime;
+
+        }catch (DateTimeParseException e) {
+            check = false;
+        }
+        if (!check) {
+            throw new IncorrectArgumentException("Некорректно указана дата, добавьте задачу повторно");
+        }
+    }
+    //public abstract boolean appearsIn (LocalDate localDate);
 
     @Override
     public String toString() {
-        return "Задача № " + id + " : " +
-                title + ", " +
-                type  +
+        return "Задача № " + id + " : " + title + ", " + type  +
                 ", дата: " + dataTime +
                 ", описание: " + description ;
     }
